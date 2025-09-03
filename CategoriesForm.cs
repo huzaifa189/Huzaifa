@@ -14,17 +14,13 @@ namespace RM.Views
             InitializeComponent();
             LoadCategories();
             
-            // Set form properties for embedding
             this.FormBorderStyle = FormBorderStyle.None;
             this.Dock = DockStyle.Fill;
             
-            // Add cell click event for edit and delete buttons
             guna2DataGridView1.CellClick += Guna2DataGridView1_CellClick;
         }
         private void CategoriesForm_Load(object sender, EventArgs e)
         {
-            // You can put any initialization code here if needed.
-            // For now, just ensure categories are loaded.
             LoadCategories();
         }
         private void LoadCategories()
@@ -36,7 +32,6 @@ namespace RM.Views
         {
             try
             {
-                // Create a new DataTable with the expected column structure
                 var displayTable = new DataTable();
                 displayTable.Columns.Add("Sno", typeof(int));
                 displayTable.Columns.Add("ID", typeof(int));
@@ -54,10 +49,8 @@ namespace RM.Views
                     displayTable.Rows.Add(newRow);
                 }
                 
-                // Clear existing columns and recreate them with proper DataPropertyName
                 guna2DataGridView1.Columns.Clear();
                 
-                // Add columns with proper DataPropertyName
                 guna2DataGridView1.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     Name = "dgvSno",
@@ -132,7 +125,6 @@ namespace RM.Views
 
         public override void btnSearch_Click(object sender, EventArgs e)
         {
-            // Show add form when search button is clicked
             using (var form = new FormcategoryAdd())
             {
                 form.ShowDialog(this.FindForm());
@@ -142,7 +134,6 @@ namespace RM.Views
 
         public override void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            // Filter categories based on search text
             LoadCategoriesData(DatabaseHelper.GetCategories(txtSearch.Text));
         }
 
@@ -150,15 +141,12 @@ namespace RM.Views
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
-                // Get the clicked column name
                 string columnName = guna2DataGridView1.Columns[e.ColumnIndex].Name;
                 
-                // Get the category ID from the hidden ID column
                 int categoryId = Convert.ToInt32(guna2DataGridView1.Rows[e.RowIndex].Cells["dgvid"].Value);
 
                 if (columnName == "dgvEdit")
                 {
-                    // Edit button clicked
                     using (var form = new FormcategoryAdd(categoryId))
                     {
                         form.ShowDialog(this.FindForm());
@@ -167,7 +155,6 @@ namespace RM.Views
                 }
                 else if (columnName == "dgvDelete")
                 {
-                    // Delete button clicked
                     if (MessageBox.Show("Are you sure you want to delete this category?", "Confirm Delete", 
                         MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
@@ -183,3 +170,4 @@ namespace RM.Views
         }
     }
 }
+
