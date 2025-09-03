@@ -32,23 +32,20 @@ namespace RM.Models
 
         private void FormTableAdd_Load(object sender, EventArgs e)
         {
-            // Hide base SampleAdd search controls to avoid overlap on this add/edit form
             try
             {
                 if (((SampleAdd)this).label2 != null) ((SampleAdd)this).label2.Visible = false;
                 if (((SampleAdd)this).txtSearch1 != null) ((SampleAdd)this).txtSearch1.Visible = false;
             }
-            catch { /* ignore */ }
+            catch { }
 
             if (_isEditMode)
             {
                 this.Text = "Edit Table";
-                // Update form title or labels if needed
             }
             else
             {
                 this.Text = "Add New Table";
-                // Default status to Available when adding a new table
                 try
                 {
                     if (cmbStatus != null && cmbStatus.Items != null && cmbStatus.Items.Count > 0)
@@ -57,7 +54,7 @@ namespace RM.Models
                         if (idx >= 0) cmbStatus.SelectedIndex = idx;
                     }
                 }
-                catch { /* ignore */ }
+                catch { }
             }
         }
 
@@ -65,14 +62,12 @@ namespace RM.Models
         {
             try
             {
-                // Load table data from database
                 var dt = DatabaseHelper.GetTables();
                 var tableRow = dt.AsEnumerable()
                     .FirstOrDefault((System.Data.DataRow row) => Convert.ToInt32(row["TableID"]) == tableId);
 
                 if (tableRow != null)
                 {
-                    // Use the actual control names from the designer
                     if (txtTableNumber != null)
                         txtTableNumber.Text = tableRow["TableNumber"].ToString();
                     
@@ -144,13 +139,11 @@ namespace RM.Models
 
                 if (_isEditMode)
                 {
-                    // Update existing table
                     success = DatabaseHelper.UpdateTable(_tableId, txtTableNumber.Text.Trim(), capacity, status);
                     message = success ? "Table updated successfully!" : "Failed to update table.";
                 }
                 else
                 {
-                    // Add new table
                     success = DatabaseHelper.AddTable(txtTableNumber.Text.Trim(), capacity, status);
                     message = success ? "Table added successfully!" : "Failed to add table.";
                 }
