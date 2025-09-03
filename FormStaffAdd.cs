@@ -28,18 +28,15 @@ namespace RM.Views
 
         private void InitializeForm()
         {
-            // Set up form properties
             this.AcceptButton = btnSave;
             this.CancelButton = btnCancel;
             
-            // Configure password field
             txtPassword.PasswordChar = '•';
             
-            // Set up role dropdown
             cmbRole.Items.AddRange(new string[] { "Admin", "Manager", "Staff" });
-            cmbRole.SelectedIndex = 2; // Default to Staff
+            cmbRole.SelectedIndex = 2;
             
-            // Set focus to name field
+           
             txtName.Focus();
         }
 
@@ -85,8 +82,7 @@ namespace RM.Views
                 txtUsername.Focus();
                 return false;
             }
-            
-            // Only validate password for new staff or when changing password
+
             if (!_isEditMode || !string.IsNullOrWhiteSpace(txtPassword.Text))
             {
                 if (txtPassword.Text.Length < 6)
@@ -130,7 +126,7 @@ namespace RM.Views
                 }
                 else
                 {
-                    // Add new staff
+                    
                     result = DatabaseHelper.AddStaff(
                         txtName.Text.Trim(),
                         txtUsername.Text.Trim(),
