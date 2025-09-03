@@ -16,7 +16,6 @@ namespace RM
             label2.Text = $"User_{_username}";
             InitializeForm();
             
-            // Show welcome screen by default
             btnHome_Click(null, null);
         }
         
@@ -70,14 +69,12 @@ namespace RM
             {
                 Console.WriteLine("\n[TEST] Testing database connection and staff data retrieval...");
                 
-                // Test database connection
                 Console.WriteLine("[TEST] Testing database connection...");
                 bool connectionOk = DatabaseHelper.TestConnection();
                 Console.WriteLine($"[TEST] Database connection test: {(connectionOk ? "SUCCESS" : "FAILED")}");
 
                 if (connectionOk)
                 {
-                    // Test staff data retrieval
                     Console.WriteLine("\n[TEST] Retrieving staff data...");
                     DataTable dt = DatabaseHelper.GetStaff();
                     Console.WriteLine($"[TEST] Retrieved {dt.Rows.Count} staff records");
@@ -212,3 +209,4 @@ namespace RM
         }
     }
 }
+
