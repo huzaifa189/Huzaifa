@@ -106,7 +106,6 @@ namespace RM.Models
         {
             try
             {
-                // Validate input
                 if (string.IsNullOrWhiteSpace(txtTableNumber?.Text))
                 {
                     MessageBox.Show("Please enter a table number.", "Validation Error", 
