@@ -31,18 +31,16 @@ namespace RM.Models
 
         private void FormcategoryAdd_Load(object sender, EventArgs e)
         {
-            // Hide base SampleAdd search controls to avoid overlap on this add/edit form
             try
             {
                 if (((SampleAdd)this).label2 != null) ((SampleAdd)this).label2.Visible = false;
                 if (((SampleAdd)this).txtSearch1 != null) ((SampleAdd)this).txtSearch1.Visible = false;
             }
-            catch { /* ignore */ }
+            catch { }
 
             if (_isEditMode)
             {
                 this.Text = "Edit Category";
-                // Update form title or labels if needed
             }
             else
             {
@@ -54,14 +52,12 @@ namespace RM.Models
         {
             try
             {
-                // Load category data from database
                 var dt = DatabaseHelper.GetCategories();
                 var categoryRow = dt.AsEnumerable()
                     .FirstOrDefault(row => Convert.ToInt32(row["CategoryID"]) == categoryId);
 
                 if (categoryRow != null)
                 {
-                    // Use the actual control name from the designer
                     if (txtNaMe != null)
                         txtNaMe.Text = categoryRow["CategoryName"].ToString();
                     
@@ -80,7 +76,6 @@ namespace RM.Models
         {
             try
             {
-                // Validate input
                 if (string.IsNullOrWhiteSpace(txtNaMe?.Text))
                 {
                     MessageBox.Show("Please enter a category name.", "Validation Error", 
@@ -93,13 +88,11 @@ namespace RM.Models
 
                 if (_isEditMode)
                 {
-                    // Update existing category
                     success = DatabaseHelper.UpdateCategory(_categoryId, txtNaMe.Text.Trim(), txtDescription?.Text?.Trim());
                     message = success ? "Category updated successfully!" : "Failed to update category.";
                 }
                 else
                 {
-                    // Add new category
                     success = DatabaseHelper.AddCategory(txtNaMe.Text.Trim(), txtDescription?.Text?.Trim());
                     message = success ? "Category added successfully!" : "Failed to add category.";
                 }
@@ -123,3 +116,4 @@ namespace RM.Models
         }
     }
 }
+
