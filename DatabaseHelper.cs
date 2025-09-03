@@ -10,7 +10,6 @@ namespace RM
     {
         private static string connectionString = @"Data Source=DESKTOP-F4BK7ES\HUZAIFA;Initial Catalog=RM;Integrated Security=True";
         
-        // Add a method to verify database connection and table structure
         public static bool TestConnection()
         {
             try
@@ -20,7 +19,6 @@ namespace RM
                     conn.Open();
                     Console.WriteLine($"[DATABASE] Successfully connected to {conn.Database} on {conn.DataSource}");
                     
-                    // Check if Staff table exists
                     using (var cmd = new SqlCommand("SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'Staff'", conn))
                     {
                         int tableCount = (int)cmd.ExecuteScalar();
@@ -43,7 +41,6 @@ namespace RM
                                 createCmd.ExecuteNonQuery();
                                 Console.WriteLine("[DATABASE] Staff table created successfully");
                                 
-                                // Add default admin user
                                 string addAdmin = @"
                                     INSERT INTO Staff (Name, Username, Password, Role)
                                     VALUES ('Admin', 'admin', 'admin123', 'Admin')";
@@ -199,7 +196,6 @@ namespace RM
                         {
                             Console.WriteLine("[DIAGNOSTIC] No records found in Staff table");
 
-                            // Try to insert test data if table is empty
                             Console.WriteLine("[DIAGNOSTIC] Attempting to insert test data...");
                             try
                             {
@@ -216,7 +212,6 @@ namespace RM
                                     cmd.ExecuteNonQuery();
                                     Console.WriteLine("[DIAGNOSTIC] Test data inserted");
 
-                                    // Refresh data
                                     using (SqlDataAdapter da = new SqlDataAdapter("SELECT StaffID, Name, Username, Role FROM Staff", testConn))
                                     {
                                         dt.Clear();
@@ -340,7 +335,7 @@ namespace RM
                         return true;
                     }
                 }
-                catch (SqlException ex) when (ex.Number == 50000) // Custom error from stored procedure
+                catch (SqlException ex) when (ex.Number == 50000) 
                 {
                     MessageBox.Show("Registration failed: " + ex.Message);
                     return false;
@@ -353,7 +348,6 @@ namespace RM
             }
         }
 
-        // Category CRUD Operations
         public static bool AddCategory(string name, string description = null)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -370,7 +364,7 @@ namespace RM
                         return true;
                     }
                 }
-                catch (SqlException ex) when (ex.Number == 50000) // Custom error from stored procedure
+                catch (SqlException ex) when (ex.Number == 50000) 
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
@@ -456,7 +450,6 @@ namespace RM
             }
         }
 
-        // Table CRUD Operations
         public static bool AddTable(string tableNumber, int capacity, string status = "Available")
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -474,7 +467,7 @@ namespace RM
                         return true;
                     }
                 }
-                catch (SqlException ex) when (ex.Number == 50000) // Custom error from stored procedure
+                catch (SqlException ex) when (ex.Number == 50000)
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
@@ -561,7 +554,6 @@ namespace RM
             }
         }
 
-        // Staff CRUD Operations
         public static bool DeleteStaff(int id)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
